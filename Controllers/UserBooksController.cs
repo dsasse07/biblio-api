@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using BiblioApi.Dtos.User;
+using BiblioApi.Dtos.UserBook;
 using BiblioApi.Entities;
 using BiblioApi.Extensions;
 using BiblioApi.Repositories;
@@ -23,79 +24,39 @@ namespace BiblioApi.Controllers
             _userBooksRepository = userBooksRepository;
         }
 
-        // GET /users
-        [HttpGet]
-        public IEnumerable<UserDto> GetUsers()
-        {
-            var users = _userBooksRepository.GetUsers().Select(user => user.ToUserDto());
-            return users;
-        }
-
-        // GET /users/{id}
-        [HttpGet("{id}")]
-        public ActionResult<UserDto> GetUser(Guid id)
-        {
-            var book = _userBooksRepository.GetUserById(id);
-
-            if (book is null)
-            {
-                return NotFound();
-            }
-
-            return Ok(book.ToUserDto());
-        }
-
         // POST /users
         [HttpPost]
-        public ActionResult<UserDto> CreateUser(CreateUserDto createUserDto)
+        public ActionResult<UserDto> CreateUserBook(CreateUserBookDto createUserBookDto)
         {
-            User user = new()
+            UserBook userBook = new()
             {
                 Id = Guid.NewGuid(),
-                FirstName = createUserDto.FirstName,
-                LastName = createUserDto.LastName,
+                UserId = createUserBookDto.UserId,
+                BookId = createUserBookDto.BookId,
                 CreatedAt = DateTimeOffset.UtcNow
             };
 
-            _userBooksRepository.CreateUser(user);
+            var newUserBook = _userBooksRepository.CreateUserBook(userBook);
 
-            return CreatedAtAction(
-                    nameof(GetUser),
-                    new { id = user.Id },
-                    user.ToUserDto()
-                );
+            return Ok(newUserBook.ToUserBookDto());
         }
 
         // PUT /items/{id}
         [HttpPut("{id}")]
-        public ActionResult<UserDto> UpdateUser(Guid id, UpdateUserDto updateUserDto){
-            var existingUser = _userBooksRepository.GetUserById(id);
+        public ActionResult<UserBookDto> UpdateUser(Guid id, UpdateUserBookDto updateUserBookDto){
+            var existingUserBook = _userBooksRepository.GetUserBookById(id);
 
-            if (existingUser is null){
+            if (existingUserBook is null){
                 return NotFound();
             }
 
-            User updatedUser = existingUser with {
-                FirstName = updateUserDto.FirstName,
-                LastName = updateUserDto.LastName,
+            UserBook updatedUserBook = existingUserBook with {
+                IsActive = updateUserBookDto.IsActive,
             };
 
-            var updatedUserDto = _userBooksRepository.UpdateUser(updatedUser).ToUserDto();
+            var updatedUserBookDto = _userBooksRepository.UpdateUserBook(updatedUserBook).ToUserBookDto();
 
-            return updatedUserDto;
-        }
-
-        [HttpDelete("{id}")]
-        public ActionResult DeleteUser(Guid id){
-            var existingUser = _userBooksRepository.GetUserById(id);
-
-            if (existingUser is null){
-                return NotFound();
-            }
-
-            _userBooksRepository.DeleteUser(id);
-
-            return NoContent();
+            return updatedUserBookDto;
         }
 
     }
