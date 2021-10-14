@@ -6,6 +6,7 @@ using BiblioApi.Dtos.UserBook;
 using BiblioApi.Entities;
 using BiblioApi.Extensions;
 using BiblioApi.Repositories;
+using BiblioApi.Services;
 using Microsoft.AspNetCore.Mvc;
 
 namespace BiblioApi.Controllers
@@ -15,46 +16,36 @@ namespace BiblioApi.Controllers
     [Route("user-books")]
     public class UserBooksController : ControllerBase
     {
-        private readonly IUserBooksRepository _userBooksRepository;
+        private readonly IUserBooksService _userBooksService;
 
         public UserBooksController(
-            IUserBooksRepository userBooksRepository
+            IUserBooksService userBooksService
         )
         {
-            _userBooksRepository = userBooksRepository;
+            _userBooksService = userBooksService;
         }
 
         // POST /users
         [HttpPost]
-        public ActionResult<UserDto> CreateUserBook(CreateUserBookDto createUserBookDto)
+        public ActionResult<UserBookDto> CreateUserBook(CreateUserBookDto createUserBookDto)
         {
-            UserBook userBook = new()
-            {
-                Id = Guid.NewGuid(),
-                UserId = createUserBookDto.UserId,
-                BookId = createUserBookDto.BookId,
-                CreatedAt = DateTimeOffset.UtcNow
-            };
-
-            var newUserBook = _userBooksRepository.CreateUserBook(userBook);
+            var newUserBook = _userBooksService.CreateUserBook(createUserBookDto);
 
             return Ok(newUserBook.ToUserBookDto());
         }
 
         // PUT /items/{id}
         [HttpPut("{id}")]
-        public ActionResult<UserBookDto> UpdateUser(Guid id, UpdateUserBookDto updateUserBookDto){
-            var existingUserBook = _userBooksRepository.GetUserBookById(id);
+        public ActionResult<UserBookDto> UpdateUser(Guid id, UpdateUserBookDto updateUserBookDto)
+        {
+            var existingUserBook = _userBooksService.GetUserBookById(id);
 
-            if (existingUserBook is null){
+            if (existingUserBook is null)
+            {
                 return NotFound();
             }
 
-            UserBook updatedUserBook = existingUserBook with {
-                IsActive = updateUserBookDto.IsActive,
-            };
-
-            var updatedUserBookDto = _userBooksRepository.UpdateUserBook(updatedUserBook).ToUserBookDto();
+            var updatedUserBookDto = _userBooksService.UpdateUserBook(existingUserBook, updateUserBookDto).ToUserBookDto();
 
             return updatedUserBookDto;
         }

@@ -6,10 +6,10 @@ namespace BiblioApi.Repositories
 {
     public interface IUsersRepository
     {
-        IEnumerable<User> CreateUser(User user);
-        void DeleteUser(Guid id);
-        User GetUserById(Guid id);
         IEnumerable<User> GetUsers();
+        User GetUserById(Guid id);
+        User CreateUser(User user);
         User UpdateUser(User user);
+        void DeleteUser(Guid id);
     }
 }

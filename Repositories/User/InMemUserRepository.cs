@@ -38,11 +38,11 @@ namespace BiblioApi.Repositories
             return users.Where(user => user.Id == id).SingleOrDefault();
         }
 
-        public IEnumerable<User> CreateUser(User user)
+        public User CreateUser(User user)
         {
             users.Add(user);
 
-            return users;
+            return user;
         }
 
         public User UpdateUser(User user)

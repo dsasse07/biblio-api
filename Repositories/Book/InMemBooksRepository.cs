@@ -45,10 +45,10 @@ namespace BiblioApi.Repositories
             return books.Where(book => book.Id == id).SingleOrDefault();
         }
 
-        public IEnumerable<Book> CreateBook(Book book){
+        public Book CreateBook(Book book){
             books.Add(book);
             
-            return books;
+            return book;
         }
 
         public Book UpdateBook(Book book){

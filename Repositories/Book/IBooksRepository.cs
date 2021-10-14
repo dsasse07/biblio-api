@@ -8,7 +8,7 @@ namespace BiblioApi.Repositories
     {
         Book GetBookById(Guid id);
         IEnumerable<Book> GetBooks();
-        IEnumerable<Book> CreateBook(Book book);
+        Book CreateBook(Book book);
         Book UpdateBook(Book book);
         void DeleteBook(Guid id);
     }

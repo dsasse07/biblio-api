@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using BiblioApi.Repositories;
+using BiblioApi.Services;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.HttpsPolicy;
@@ -30,6 +31,11 @@ namespace BiblioApi
             // Creates a singleton from the interface for the repository
             services.AddSingleton<IBooksRepository, InMemBooksRepository>();
             services.AddSingleton<IUsersRepository, InMemUsersRepository>();
+            services.AddSingleton<IUserBooksRepository, InMemUserBooksRepository>();
+            services.AddSingleton<IUsersService, UsersService>();
+            services.AddSingleton<IBooksService, BooksService>();
+            services.AddSingleton<IUserBooksService, UserBooksService>();
+
 
             services.AddControllers();
             services.AddSwaggerGen(c =>

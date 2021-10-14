@@ -6,6 +6,7 @@ using BiblioApi.Dtos.Book;
 using BiblioApi.Entities;
 using BiblioApi.Extensions;
 using BiblioApi.Repositories;
+using BiblioApi.Services;
 using Microsoft.AspNetCore.Mvc;
 
 namespace BiblioApi.Controllers
@@ -15,20 +16,20 @@ namespace BiblioApi.Controllers
     [Route("books")]
     public class BooksController : ControllerBase
     {
-        private readonly IBooksRepository _booksRepository;
+        private readonly IBooksService _booksService;
 
         public BooksController(
-            IBooksRepository booksRepository
+            IBooksService booksService
         )
         {
-            _booksRepository = booksRepository;
+            _booksService = booksService;
         }
 
         // GET /books
         [HttpGet]
         public IEnumerable<BookDto> GetBooks()
         {
-            var books = _booksRepository.GetBooks().Select(book => book.ToBookDto());
+            var books = _booksService.GetBooks().Select(book => book.ToBookDto());
             return books;
         }
 
@@ -36,7 +37,7 @@ namespace BiblioApi.Controllers
         [HttpGet("{id}")]
         public ActionResult<BookDto> GetBook(Guid id)
         {
-            var book = _booksRepository.GetBookById(id);
+            var book = _booksService.GetBookById(id);
 
             if (book is null)
             {
@@ -50,59 +51,42 @@ namespace BiblioApi.Controllers
         [HttpPost]
         public ActionResult<BookDto> CreateBook(CreateBookDto createBookDto)
         {
-            Book book = new()
-            {
-                Id = Guid.NewGuid(),
-                VolumeId = createBookDto.VolumeId,
-                Title = createBookDto.Title,
-                Subtitle = createBookDto.Subtitle,
-                Author = createBookDto.Author,
-                PreviewImage = createBookDto.PreviewImage,
-                PageCount = createBookDto.PageCount,
-                CreatedAt = DateTimeOffset.UtcNow
-            };
-
-            _booksRepository.CreateBook(book);
+            var newBook = _booksService.CreateBook(createBookDto);
 
             return CreatedAtAction(
                     nameof(GetBook),
-                    new { id = book.Id },
-                    book.ToBookDto()
+                    new { id = newBook.Id },
+                    newBook.ToBookDto()
                 );
         }
 
         // PUT /items/{id}
         [HttpPut("{id}")]
-        public ActionResult<BookDto> UpdateBook(Guid id, UpdateBookDto updateBookDto){
-            var existingBook = _booksRepository.GetBookById(id);
+        public ActionResult<BookDto> UpdateBook(Guid id, UpdateBookDto updateBookDto)
+        {
+            var existingBook = _booksService.GetBookById(id);
 
-            if (existingBook is null){
+            if (existingBook is null)
+            {
                 return NotFound();
             }
 
-            Book updatedBook = existingBook with {
-                VolumeId = updateBookDto.VolumeId,
-                Title = updateBookDto.Title,
-                Subtitle = updateBookDto.Subtitle,
-                Author = updateBookDto.Author,
-                PreviewImage = updateBookDto.PreviewImage,
-                PageCount = updateBookDto.PageCount,
-            };
-
-            var updatedBookDto = _booksRepository.UpdateBook(updatedBook).ToBookDto();
+            var updatedBookDto = _booksService.UpdateBook(existingBook, updateBookDto).ToBookDto();
 
             return updatedBookDto;
         }
 
         [HttpDelete("{id}")]
-        public ActionResult DeleteBook(Guid id){
-            var existingBook = _booksRepository.GetBookById(id);
+        public ActionResult DeleteBook(Guid id)
+        {
+            var existingBook = _booksService.GetBookById(id);
 
-            if (existingBook is null){
+            if (existingBook is null)
+            {
                 return NotFound();
             }
 
-            _booksRepository.DeleteBook(id);
+            _booksService.DeleteBook(id);
 
             return NoContent();
         }
