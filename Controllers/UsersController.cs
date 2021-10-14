@@ -25,10 +25,10 @@ namespace BiblioApi.Controllers
 
         // GET /users
         [HttpGet]
-        public IEnumerable<UserDto> GetUsers()
+        public ActionResult<IEnumerable<UserDto>> GetUsers()
         {
             var users = _usersService.GetUsers().Select(user => user.ToUserDto());
-            return users;
+            return Ok(users);
         }
 
         // GET /users/{id}

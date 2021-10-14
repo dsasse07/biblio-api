@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 
 namespace BiblioApi.Entities
 {
@@ -11,6 +12,7 @@ namespace BiblioApi.Entities
         public string Author { get; set; }
         public string PreviewImage { get; set; }
         public int PageCount { get; set; }
+        public List<UserBook> UserBooks { get; set; }
         public DateTimeOffset CreatedAt { get; init; }
     }
 }

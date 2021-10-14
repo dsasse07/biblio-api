@@ -11,5 +11,6 @@ namespace BiblioApi.Repositories
         User CreateUser(User user);
         User UpdateUser(User user);
         void DeleteUser(Guid id);
+        bool SaveChanges();
     }
 }

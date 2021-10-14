@@ -3,6 +3,9 @@ using System.Collections.Generic;
 using BiblioApi.Dtos.Book;
 using BiblioApi.Entities;
 using BiblioApi.Repositories;
+using Microsoft.AspNetCore.JsonPatch;
+using Microsoft.AspNetCore.Mvc;
+using AutoMapper;
 
 namespace BiblioApi.Services
 {
@@ -26,41 +29,18 @@ namespace BiblioApi.Services
             return _booksRepository.GetBookById(id);
         }
 
-        public Book CreateBook(CreateBookDto createBookDto)
-        {
-            Book book = new()
-            {
-                Id = Guid.NewGuid(),
-                VolumeId = createBookDto.VolumeId,
-                Title = createBookDto.Title,
-                Subtitle = createBookDto.Subtitle,
-                Author = createBookDto.Author,
-                PreviewImage = createBookDto.PreviewImage,
-                PageCount = createBookDto.PageCount,
-                CreatedAt = DateTimeOffset.UtcNow
-            };
-
+        public Book CreateBook(Book book)
+        {            
             return _booksRepository.CreateBook(book);
         }
 
-        public Book UpdateBook(Book existingBook, UpdateBookDto updateBookDto)
+        public void UpdateBook(Book book)
         {
-            Book updatedBook = existingBook with
-            {
-                VolumeId = updateBookDto.VolumeId,
-                Title = updateBookDto.Title,
-                Subtitle = updateBookDto.Subtitle,
-                Author = updateBookDto.Author,
-                PreviewImage = updateBookDto.PreviewImage,
-                PageCount = updateBookDto.PageCount,
-            };
-
-            return _booksRepository.UpdateBook(updatedBook);
+            _booksRepository.UpdateBook(book);
         }
-
-        public void DeleteBook(Guid id)
+        public void DeleteBook(Book existingBook)
         {
-            _booksRepository.DeleteBook(id);
+            _booksRepository.DeleteBook(existingBook);
         }
     }
 }

@@ -58,5 +58,10 @@ namespace BiblioApi.Repositories
             var index = users.FindIndex(existingUser => existingUser.Id == id);
             users.RemoveAt(index);
         }
+
+        public bool SaveChanges()
+        {
+            throw new NotImplementedException();
+        }
     }
 }

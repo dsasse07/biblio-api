@@ -11,5 +11,6 @@ namespace BiblioApi.Repositories
         UserBook CreateUserBook(UserBook userBook);
         UserBook UpdateUserBook(UserBook userBook);
         void DeleteUserBook(Guid id);
+        bool SaveChanges();
     }
 }

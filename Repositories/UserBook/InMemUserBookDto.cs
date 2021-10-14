@@ -55,5 +55,10 @@ namespace BiblioApi.Repositories
             var index = userBooks.FindIndex(existingUserBook => existingUserBook.Id == id);
             userBooks.RemoveAt(index);
         }
+
+        public bool SaveChanges()
+        {
+            throw new NotImplementedException();
+        }
     }
 }

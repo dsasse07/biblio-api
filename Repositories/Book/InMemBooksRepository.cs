@@ -2,6 +2,7 @@ using System;
 using System.Linq;
 using System.Collections.Generic;
 using BiblioApi.Entities;
+using BiblioApi.Dtos.Book;
 
 namespace BiblioApi.Repositories
 {
@@ -45,23 +46,65 @@ namespace BiblioApi.Repositories
             return books.Where(book => book.Id == id).SingleOrDefault();
         }
 
-        public Book CreateBook(Book book){
+        public Book CreateBook(CreateBookDto createBookDto)
+        {
+            Book book = new()
+            {
+                Id = Guid.NewGuid(),
+                VolumeId = createBookDto.VolumeId,
+                Title = createBookDto.Title,
+                Subtitle = createBookDto.Subtitle,
+                Author = createBookDto.Author,
+                PreviewImage = createBookDto.PreviewImage,
+                PageCount = createBookDto.PageCount,
+                CreatedAt = DateTimeOffset.UtcNow
+            };
+
             books.Add(book);
-            
+
             return book;
         }
 
-        public Book UpdateBook(Book book){
-            var index = books.FindIndex(existingItem => existingItem.Id == book.Id);
-            books[index] = book;
+        public void UpdateBook(Book existingBook, UpdateBookDto updateBookDto)
+        {
+            var index = books.FindIndex(existingItem => existingItem.Id == existingBook.Id);
+            Book updatedBook = existingBook with
+            {
+                VolumeId = updateBookDto.VolumeId,
+                Title = updateBookDto.Title,
+                Subtitle = updateBookDto.Subtitle,
+                Author = updateBookDto.Author,
+                PreviewImage = updateBookDto.PreviewImage,
+                PageCount = updateBookDto.PageCount,
+            };
 
-            return book;
+            books[index] = updatedBook;            
         }
 
         public void DeleteBook(Guid id)
         {
             var index = books.FindIndex(existingItem => existingItem.Id == id);
             books.RemoveAt(index);
+        }
+
+        public bool SaveChanges()
+        {
+            throw new NotImplementedException();
+        }
+
+        public Book CreateBook(Book book)
+        {
+            throw new NotImplementedException();
+        }
+
+        public void UpdateBook(Book book)
+        {
+            throw new NotImplementedException();
+        }
+
+        public void DeleteBook(Book book)
+        {
+            throw new NotImplementedException();
         }
     }
 }
