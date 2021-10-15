@@ -6,17 +6,20 @@ using BiblioApi.Entities;
 
 namespace BiblioApi.Repositories
 {
-  public class SqlUserBooksRepository : IUserBooksRepository
+  public class UserBooksRepository : IUserBooksRepository
   {
     private readonly DataContext _DbContext;
 
-    public SqlUserBooksRepository(
+    public UserBooksRepository(
       DataContext context
     )
     {
       _DbContext = context;
     }
-
+    public IEnumerable<UserBook> GetUserBooks()
+    {
+      return _DbContext.UserBooks.ToList();
+    }
     public UserBook GetUserBookById(Guid id)
     {
       return _DbContext.UserBooks.FirstOrDefault(ub => ub.Id == id);

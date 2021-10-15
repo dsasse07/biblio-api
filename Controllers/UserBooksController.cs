@@ -1,4 +1,6 @@
 using System;
+using System.Collections.Generic;
+using System.Linq;
 using AutoMapper;
 using BiblioApi.Dtos.UserBook;
 using BiblioApi.Entities;
@@ -22,6 +24,15 @@ namespace BiblioApi.Controllers
     {
       _userBooksService = userBooksService;
       _mapper = mapper;
+    }
+
+    [HttpGet]
+    public ActionResult<IEnumerable<UserBookDto>> GetUserBooks()
+    {
+      var userBookDtos = _userBooksService.GetUserBooks().Select(ub =>
+          _mapper.Map<UserBookDto>(ub)
+      );
+      return Ok(userBookDtos);
     }
 
     [HttpGet("{id}", Name = "GetUserBook")]

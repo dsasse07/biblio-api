@@ -3,14 +3,15 @@ using System.Collections.Generic;
 using System.Linq;
 using BiblioApi.Data;
 using BiblioApi.Entities;
+using Microsoft.EntityFrameworkCore;
 
 namespace BiblioApi.Repositories
 {
-  public class SqlUsersRepository : IUsersRepository
+  public class UsersRepository : IUsersRepository
   {
     private readonly DataContext _DbContext;
 
-    public SqlUsersRepository(
+    public UsersRepository(
       DataContext context
     )
     {
@@ -18,7 +19,7 @@ namespace BiblioApi.Repositories
     }
     public IEnumerable<User> GetUsers()
     {
-      return _DbContext.Users.ToList();
+      return _DbContext.Users.Include(u => u.UserBooks).ToList();
     }
     public User GetUserById(Guid id)
     {

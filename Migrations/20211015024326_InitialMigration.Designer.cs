@@ -10,7 +10,7 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace BiblioApi.Migrations
 {
     [DbContext(typeof(DataContext))]
-    [Migration("20211014162741_InitialMigration")]
+    [Migration("20211015024326_InitialMigration")]
     partial class InitialMigration
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -102,17 +102,21 @@ namespace BiblioApi.Migrations
 
             modelBuilder.Entity("BiblioApi.Entities.UserBook", b =>
                 {
-                    b.HasOne("BiblioApi.Entities.Book", null)
+                    b.HasOne("BiblioApi.Entities.Book", "Book")
                         .WithMany("UserBooks")
                         .HasForeignKey("BookId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("BiblioApi.Entities.User", null)
+                    b.HasOne("BiblioApi.Entities.User", "User")
                         .WithMany("UserBooks")
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
+
+                    b.Navigation("Book");
+
+                    b.Navigation("User");
                 });
 
             modelBuilder.Entity("BiblioApi.Entities.Book", b =>

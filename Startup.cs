@@ -15,6 +15,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using Microsoft.OpenApi.Models;
+using Newtonsoft.Json;
 using Newtonsoft.Json.Serialization;
 using Npgsql;
 
@@ -55,6 +56,7 @@ namespace BiblioApi
       services.AddControllers().AddNewtonsoftJson(s =>
       {
         s.SerializerSettings.ContractResolver = new CamelCasePropertyNamesContractResolver();
+        s.SerializerSettings.Formatting = Formatting.Indented;
       });
 
       services.AddSwaggerGen(c =>
@@ -71,9 +73,9 @@ namespace BiblioApi
       // Transient = New instance for every use
 
       // Repositories
-      services.AddScoped<IBooksRepository, SqlBooksRepository>();
-      services.AddScoped<IUsersRepository, SqlUsersRepository>();
-      services.AddScoped<IUserBooksRepository, SqlUserBooksRepository>();
+      services.AddScoped<IBooksRepository, BooksRepository>();
+      services.AddScoped<IUsersRepository, UsersRepository>();
+      services.AddScoped<IUserBooksRepository, UserBooksRepository>();
 
       // Services
       services.AddScoped<IUsersService, UsersService>();

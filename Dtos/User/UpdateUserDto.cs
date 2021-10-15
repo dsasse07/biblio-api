@@ -1,8 +1,8 @@
 namespace BiblioApi.Dtos.User
 {
-    public record UpdateUserDto
-    {   
-        public string FirstName { get; set; }
-        public string LastName { get; set; }
-    }
+  public class UpdateUserDto
+  {
+    public string FirstName { get; set; }
+    public string LastName { get; set; }
+  }
 }

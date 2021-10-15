@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using BiblioApi.Dtos.UserBook;
 using BiblioApi.Entities;
 using BiblioApi.Repositories;
@@ -13,6 +14,10 @@ namespace BiblioApi.Services
         )
     {
       _userBooksRepository = userBooksRepository;
+    }
+    public IEnumerable<UserBook> GetUserBooks()
+    {
+      return _userBooksRepository.GetUserBooks();
     }
     public UserBook GetUserBookById(Guid id)
     {

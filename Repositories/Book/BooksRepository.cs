@@ -7,10 +7,10 @@ using BiblioApi.Entities;
 
 namespace BiblioApi.Repositories
 {
-  public class SqlBooksRepository : IBooksRepository
+  public class BooksRepository : IBooksRepository
   {
     private readonly DataContext _DbContext;
-    public SqlBooksRepository(
+    public BooksRepository(
         DataContext context
     )
     {

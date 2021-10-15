@@ -6,6 +6,7 @@ namespace BiblioApi.Repositories
 {
   public interface IUserBooksRepository
   {
+    IEnumerable<UserBook> GetUserBooks();
     UserBook GetUserBookById(Guid id);
     IEnumerable<UserBook> GetUserBooksByUserId(Guid userId);
     UserBook CreateUserBook(UserBook newUserBook);
