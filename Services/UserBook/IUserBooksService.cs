@@ -4,10 +4,11 @@ using BiblioApi.Entities;
 
 namespace BiblioApi.Services
 {
-    public interface IUserBooksService
-    {
-        UserBook GetUserBookById(Guid id);
-        UserBook CreateUserBook(CreateUserBookDto createUserBookDto);
-        UserBook UpdateUserBook(UserBook existingUserBook, UpdateUserBookDto updateUserBookDto);
-    }
+  public interface IUserBooksService
+  {
+    UserBook GetUserBookById(Guid id);
+    UserBook CreateUserBook(UserBook newUserBook);
+    void UpdateUserBook(UserBook updatedUserBook);
+    void DeleteUserBook(UserBook existingUserBook);
+  }
 }

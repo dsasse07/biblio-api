@@ -7,4 +7,4 @@ build_property.PublishSingleFile =
 build_property.IncludeAllContentForSelfExtract = 
 build_property._SupportedPlatformList = Android,iOS,Linux,macOS,Windows
 build_property.RootNamespace = BiblioApi
-build_property.ProjectDir = /Users/danny/code/biblio/BiblioApi/
+build_property.ProjectDir = /Users/dsasse/Development/my-projects/biblio/biblio-api/

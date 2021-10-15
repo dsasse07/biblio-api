@@ -5,42 +5,31 @@ using BiblioApi.Repositories;
 
 namespace BiblioApi.Services
 {
-    public class UserBooksService : IUserBooksService
+  public class UserBooksService : IUserBooksService
+  {
+    private readonly IUserBooksRepository _userBooksRepository;
+    public UserBooksService(
+        IUserBooksRepository userBooksRepository
+        )
     {
-        private readonly IUserBooksRepository _userBooksRepository;
-        public UserBooksService(
-            IUserBooksRepository userBooksRepository
-            )
-        {
-            _userBooksRepository = userBooksRepository;
-        }
-
-        public UserBook GetUserBookById(Guid id)
-        {
-            return _userBooksRepository.GetUserBookById(id);
-        }
-        public UserBook CreateUserBook(CreateUserBookDto createUserBookDto)
-        {
-            UserBook userBook = new()
-            {
-                Id = Guid.NewGuid(),
-                UserId = createUserBookDto.UserId,
-                BookId = createUserBookDto.BookId,
-                CreatedAt = DateTimeOffset.UtcNow
-            };
-
-            return _userBooksRepository.CreateUserBook(userBook);
-        }
-
-
-        public UserBook UpdateUserBook(UserBook existingUserBook, UpdateUserBookDto updateUserBookDto)
-        {
-            UserBook updatedUserBook = existingUserBook with
-            {
-                IsActive = updateUserBookDto.IsActive,
-            };
-
-            return _userBooksRepository.UpdateUserBook(updatedUserBook);
-        }
+      _userBooksRepository = userBooksRepository;
     }
+    public UserBook GetUserBookById(Guid id)
+    {
+      return _userBooksRepository.GetUserBookById(id);
+    }
+    public UserBook CreateUserBook(UserBook newUserBook)
+    {
+      return _userBooksRepository.CreateUserBook(newUserBook);
+    }
+    public void UpdateUserBook(UserBook updatedUserBook)
+    {
+      _userBooksRepository.UpdateUserBook(updatedUserBook);
+    }
+
+    public void DeleteUserBook(UserBook existingUserBook)
+    {
+      _userBooksRepository.DeleteUserBook(existingUserBook);
+    }
+  }
 }

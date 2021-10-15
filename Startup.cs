@@ -20,91 +20,91 @@ using Npgsql;
 
 namespace BiblioApi
 {
-    public class Startup
+  public class Startup
+  {
+    public Startup(IConfiguration configuration)
     {
-        public Startup(IConfiguration configuration)
-        {
-            Configuration = configuration;
-        }
-
-        public IConfiguration Configuration { get; }
-
-        // This method gets called by the runtime. Use this method to add services to the container.
-        public void ConfigureServices(IServiceCollection services)
-        {
-            // // Enable CORS
-            // services.AddCors( c => {
-            //     c.AddPolicy(
-            //         "AllowOrigin", 
-            //         options => options.AllowAnyOrigin().AllowAnyMethod().AllowAnyHeader()
-            //     );
-            // });
-
-            // Establishes connection from app to database using information from appSettings.json
-            var connectionBuilder = new NpgsqlConnectionStringBuilder
-            (
-                Configuration.GetConnectionString("LocalConnection")
-            );
-            // Get DB password from user secrets
-            connectionBuilder.Password = Configuration["LocalDb:Password"];
-            services.AddDbContext<DataContext>(p => p.UseNpgsql(
-                    connectionBuilder.ConnectionString
-                ));
-
-            // Added Newtonsoft for PATCH
-            services.AddControllers().AddNewtonsoftJson(s =>
-            {
-                s.SerializerSettings.ContractResolver = new CamelCasePropertyNamesContractResolver();
-            });
-
-            services.AddSwaggerGen(c =>
-            {
-                c.SwaggerDoc("v1", new OpenApiInfo { Title = "BiblioApi", Version = "v1" });
-            });
-
-            services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
-
-            // Associates the interface to a specific class implmentation.
-            // This dependency injection method allows us to easily swap out the implementation of the interface
-            // AddSigleton = Same instance for every single request
-            // AddScoped = New instance per client request
-            // Transient = New instance for every use
-
-            // Repositories
-            services.AddScoped<IBooksRepository, SqlBooksRepository>();
-            services.AddSingleton<IUsersRepository, InMemUsersRepository>();
-            services.AddSingleton<IUserBooksRepository, InMemUserBooksRepository>();
-
-            // Services
-            services.AddScoped<IUsersService, UsersService>();
-            services.AddScoped<IBooksService, BooksService>();
-            services.AddScoped<IUserBooksService, UserBooksService>();
-
-        }
-
-        // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
-        public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
-        {
-            // Enable Cors
-            // app.UseCors(options => options.AllowAnyOrigin().AllowAnyMethod().AllowAnyHeader());
-
-            if (env.IsDevelopment())
-            {
-                app.UseDeveloperExceptionPage();
-                app.UseSwagger();
-                app.UseSwaggerUI(c => c.SwaggerEndpoint("/swagger/v1/swagger.json", "BiblioApi v1"));
-            }
-
-            app.UseHttpsRedirection();
-
-            app.UseRouting();
-
-            app.UseAuthorization();
-
-            app.UseEndpoints(endpoints =>
-            {
-                endpoints.MapControllers();
-            });
-        }
+      Configuration = configuration;
     }
+
+    public IConfiguration Configuration { get; }
+
+    // This method gets called by the runtime. Use this method to add services to the container.
+    public void ConfigureServices(IServiceCollection services)
+    {
+      // // Enable CORS
+      // services.AddCors( c => {
+      //     c.AddPolicy(
+      //         "AllowOrigin", 
+      //         options => options.AllowAnyOrigin().AllowAnyMethod().AllowAnyHeader()
+      //     );
+      // });
+
+      // Establishes connection from app to database using information from appSettings.json
+      var connectionBuilder = new NpgsqlConnectionStringBuilder
+      (
+          Configuration.GetConnectionString("LocalConnection")
+      );
+      // Get DB password from user secrets
+      connectionBuilder.Password = Configuration["LocalDb:Password"];
+      services.AddDbContext<DataContext>(p => p.UseNpgsql(
+              connectionBuilder.ConnectionString
+          ));
+
+      // Added Newtonsoft for PATCH
+      services.AddControllers().AddNewtonsoftJson(s =>
+      {
+        s.SerializerSettings.ContractResolver = new CamelCasePropertyNamesContractResolver();
+      });
+
+      services.AddSwaggerGen(c =>
+      {
+        c.SwaggerDoc("v1", new OpenApiInfo { Title = "BiblioApi", Version = "v1" });
+      });
+
+      services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
+
+      // Associates the interface to a specific class implmentation.
+      // This dependency injection method allows us to easily swap out the implementation of the interface
+      // AddSigleton = Same instance for every single request
+      // AddScoped = New instance per client request
+      // Transient = New instance for every use
+
+      // Repositories
+      services.AddScoped<IBooksRepository, SqlBooksRepository>();
+      services.AddScoped<IUsersRepository, SqlUsersRepository>();
+      services.AddScoped<IUserBooksRepository, SqlUserBooksRepository>();
+
+      // Services
+      services.AddScoped<IUsersService, UsersService>();
+      services.AddScoped<IBooksService, BooksService>();
+      services.AddScoped<IUserBooksService, UserBooksService>();
+
+    }
+
+    // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
+    public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
+    {
+      // Enable Cors
+      // app.UseCors(options => options.AllowAnyOrigin().AllowAnyMethod().AllowAnyHeader());
+
+      if (env.IsDevelopment())
+      {
+        app.UseDeveloperExceptionPage();
+        app.UseSwagger();
+        app.UseSwaggerUI(c => c.SwaggerEndpoint("/swagger/v1/swagger.json", "BiblioApi v1"));
+      }
+
+      app.UseHttpsRedirection();
+
+      app.UseRouting();
+
+      app.UseAuthorization();
+
+      app.UseEndpoints(endpoints =>
+      {
+        endpoints.MapControllers();
+      });
+    }
+  }
 }

@@ -1293,19 +1293,19 @@
     ]
   },
   "packageFolders": {
-    "/Users/danny/.nuget/packages/": {}
+    "/Users/dsasse/.nuget/packages/": {}
   },
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "/Users/danny/code/biblio/BiblioApi/BiblioApi.csproj",
+      "projectUniqueName": "/Users/dsasse/Development/my-projects/biblio/biblio-api/BiblioApi.csproj",
       "projectName": "BiblioApi",
-      "projectPath": "/Users/danny/code/biblio/BiblioApi/BiblioApi.csproj",
-      "packagesPath": "/Users/danny/.nuget/packages/",
-      "outputPath": "/Users/danny/code/biblio/BiblioApi/obj/",
+      "projectPath": "/Users/dsasse/Development/my-projects/biblio/biblio-api/BiblioApi.csproj",
+      "packagesPath": "/Users/dsasse/.nuget/packages/",
+      "outputPath": "/Users/dsasse/Development/my-projects/biblio/biblio-api/obj/",
       "projectStyle": "PackageReference",
       "configFilePaths": [
-        "/Users/danny/.nuget/NuGet/NuGet.Config"
+        "/Users/dsasse/.nuget/NuGet/NuGet.Config"
       ],
       "originalTargetFrameworks": [
         "net5.0"
@@ -1384,7 +1384,7 @@
             "privateAssets": "all"
           }
         },
-        "runtimeIdentifierGraphPath": "/usr/local/share/dotnet/sdk/5.0.402/RuntimeIdentifierGraph.json"
+        "runtimeIdentifierGraphPath": "/usr/local/share/dotnet/sdk/5.0.401/RuntimeIdentifierGraph.json"
       }
     }
   }
