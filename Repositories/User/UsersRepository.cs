@@ -26,6 +26,12 @@ namespace BiblioApi.Repositories
       return _DbContext.Users.FirstOrDefault(user => user.Id == id);
     }
 
+    public User GetUserByFirstName(string firstName)
+    {
+      return _DbContext.Users
+              .Include(user => user.UserBooks)
+              .FirstOrDefault(user => user.FirstName == firstName);
+    }
     public User CreateUser(User newUser)
     {
       if (newUser is null)
@@ -57,5 +63,6 @@ namespace BiblioApi.Repositories
     {
       return _DbContext.SaveChanges() >= 0;
     }
+
   }
 }

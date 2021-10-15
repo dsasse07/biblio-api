@@ -4,7 +4,6 @@ using System.Linq;
 using AutoMapper;
 using BiblioApi.Dtos.User;
 using BiblioApi.Entities;
-using BiblioApi.Extensions;
 using BiblioApi.Services;
 using Microsoft.AspNetCore.JsonPatch;
 using Microsoft.AspNetCore.Mvc;
@@ -13,7 +12,7 @@ namespace BiblioApi.Controllers
 {
   // Marks class as an API controller and adds default functionality
   [ApiController]
-  [Route("users")]
+  [Route("rest-api/users")]
   public class UsersController : ControllerBase
   {
     private readonly IUsersService _usersService;

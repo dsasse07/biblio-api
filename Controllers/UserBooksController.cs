@@ -11,7 +11,7 @@ namespace BiblioApi.Controllers
 {
   // Marks class as an API controller and adds default functionality
   [ApiController]
-  [Route("user-books")]
+  [Route("rest-api/user-books")]
   public class UserBooksController : ControllerBase
   {
     private readonly IUserBooksService _userBooksService;

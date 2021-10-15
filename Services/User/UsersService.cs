@@ -23,6 +23,10 @@ namespace BiblioApi.Services
     {
       return _usersRepository.GetUserById(id);
     }
+    public User GetUserByFirstName(string firstName)
+    {
+      return _usersRepository.GetUserByFirstName(firstName);
+    }
     public User CreateUser(User newUser)
     {
       return _usersRepository.CreateUser(newUser);
@@ -36,5 +40,6 @@ namespace BiblioApi.Services
     {
       _usersRepository.DeleteUser(existingUser);
     }
+
   }
 }
