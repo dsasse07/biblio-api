@@ -34,12 +34,13 @@ namespace BiblioApi
     public void ConfigureServices(IServiceCollection services)
     {
       // // Enable CORS
-      // services.AddCors( c => {
-      //     c.AddPolicy(
-      //         "AllowOrigin", 
-      //         options => options.AllowAnyOrigin().AllowAnyMethod().AllowAnyHeader()
-      //     );
-      // });
+      services.AddCors(c =>
+      {
+        c.AddPolicy(
+            "AllowOrigin",
+            options => options.AllowAnyOrigin().AllowAnyMethod().AllowAnyHeader()
+        );
+      });
 
       // Establishes connection from app to database using information from appSettings.json
       var connectionBuilder = new NpgsqlConnectionStringBuilder
@@ -88,7 +89,7 @@ namespace BiblioApi
     public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
     {
       // Enable Cors
-      // app.UseCors(options => options.AllowAnyOrigin().AllowAnyMethod().AllowAnyHeader());
+      app.UseCors(options => options.AllowAnyOrigin().AllowAnyMethod().AllowAnyHeader());
 
       if (env.IsDevelopment())
       {

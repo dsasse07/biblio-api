@@ -56,8 +56,7 @@ namespace BiblioApi.Controllers
     [HttpPost]
     public ActionResult<UserDto> CreateUser(CreateUserDto createUserDto)
     {
-      var newUserModel = _mapper.Map<User>(createUserDto);
-      var newUser = _usersService.CreateUser(newUserModel);
+      var newUser = _usersService.CreateUser(createUserDto);
       var newUserDto = _mapper.Map<UserDto>(newUser);
 
       return CreatedAtAction(
